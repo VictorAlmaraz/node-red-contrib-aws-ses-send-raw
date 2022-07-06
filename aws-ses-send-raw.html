@@ -1,0 +1,63 @@
+<script type="text/javascript">
+    RED.nodes.registerType('aws-ses-raw',{
+        category: 'AWS',
+        color: '#DEBD5C',
+        defaults: {
+            name: {value:""},
+            fromArn: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "envelope.png",
+        label: function() {
+            return this.name||"AWS SES Send";
+        },
+        credentials: {
+            aws_access_key_id: {type:"text"},
+            aws_secret_access_key: {type:"password"},
+            region: {type:"text"}
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="aws-ses-raw">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-fromArn"><i class="fa fa-email"></i> From ARN</label>
+        <input type="text" id="node-input-fromArn" placeholder="sender">
+    </div>
+    <div class="form-row">
+        <label for="node-input-aws_access_key_id"><i class="fa fa-key"></i> AWS Access Key ID</label>
+        <input type="text" id="node-input-aws_access_key_id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-aws_secret_access_key"><i class="fa fa-tag"></i> AWS Secret Access Key</label>
+        <input type="password" id="node-input-aws_secret_access_key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-key"></i> Region</label>
+        <input type="text" id="node-input-region">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="aws-ses-raw">
+    <h1>A simple node that sends raw e-mails with AWS Simple Email Service.</h1>
+    <h2>1. Configure the node</h1>
+    <p>Double click the node and fill all fields</p>
+    <h2>Payload</h2>
+    <p>It expects a payload with the raw email</p>
+
+    <h2>Return</h2>
+    <p>It returns an Object with the Id of the email sended</p>
+    <pre>
+{
+    "ResponseMetadata":{
+        "RequestId":"d05b47cf-0ee2-413f-b06b-fe981fbfed1b"
+    },
+    "MessageId":"0101017599fe549f-64676c3d-8dda-478b-9765-228d49de341c-000000"
+}
+    </pre>
+</script>
