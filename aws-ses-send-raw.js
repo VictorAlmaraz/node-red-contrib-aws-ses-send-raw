@@ -41,22 +41,14 @@ module.exports = function(RED) {
             const aws_secret_access_key = this.credentials.aws_secret_access_key;
             const region = this.credentials.region;
 
-            
-            AWS.config.update({
-                region: region
-            });
 
-            if (aws_access_key_id && aws_access_key_id != "" && aws_secret_access_key && aws_secret_access_key != "") {
-                AWS.config.update({
+            const sesOptions = { region: region };
+
+            if (aws_access_key_id && aws_secret_access_key) {
+                sesOptions.credentials = {
                     accessKeyId: aws_access_key_id,
                     secretAccessKey: aws_secret_access_key
-                });
-            }
-            
-            if (!AWS) {
-                sendError(new Error("You must configure the node key and secret before using..."),node,done, msg);
-                node.warn("Missing AWS credentials");
-                return;
+                };
             }
 
             if (!msg.payload || typeof msg.payload != 'string') {
@@ -82,7 +74,7 @@ module.exports = function(RED) {
 
             send = send || function() { node.send.apply(node,arguments) }
             
-            var ses = new AWS.SES();
+            var ses = new AWS.SES(sesOptions);
             ses.sendRawEmail(params, (function(err, data) {
                 if(err) {
                     this.status({fill:"red",shape:"dot",text: "error"});
