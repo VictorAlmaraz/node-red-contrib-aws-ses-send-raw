@@ -43,10 +43,15 @@ module.exports = function(RED) {
 
             
             AWS.config.update({
-                accessKeyId: aws_access_key_id,
-                secretAccessKey: aws_secret_access_key,
                 region: region
             });
+
+            if (aws_access_key_id && aws_access_key_id != "" && aws_secret_access_key && aws_secret_access_key != "") {
+                AWS.config.update({
+                    accessKeyId: aws_access_key_id,
+                    secretAccessKey: aws_secret_access_key
+                });
+            }
             
             if (!AWS) {
                 sendError(new Error("You must configure the node key and secret before using..."),node,done, msg);
